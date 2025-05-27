@@ -129,6 +129,13 @@ For example you can change the colour of the prompt, add messages by starting th
 
  ```bash
 
+<h1>Sourcing</h1> 
+The commands will run in the current shell process and changes to the environment has an effect in the current shell.
+to source a file, the file does not need to be excutable. 
+
+<h2>Executing</h2> 
+With `executing` the script run the commands in a new shell process. It changes the environment, takes effect of the new shell and
+is terminated once the script is done. 
 ```  
 
 ---
