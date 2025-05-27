@@ -103,8 +103,33 @@ Place your completed `print.sh` in `solutions/` and commit. Then link it here:
 #### Reflection Questions
 
 1. **What is the difference between `printf` and `echo` in Bash?**
+```bash
+`printf` offers many formatting options which makes the controlling of the output precisely.
+You can for example set the width, precision and the alignement of the output.
+printf needs a format string, followed by a list of arguments to fill into the format string.
+e.g.
+
+printf "format string" arg1, arg2 ....
+
+`echo`  does not need a format string.
+e.g.
+
+echo [option] arg1, arg2 ...
+
+`echo` adds a new new line to the output by default, while `printf` need "\n" in the format string to create a new line.
+`echo` is good for simple text display and `printf` is good for precise control of output formats. 
+```  
 2. **What is the role of `~/.bashrc` in your shell environment?**
+```bash
+`~/.bashrc` is a configuration file which starts by opening the terminal.It initializes an interactive shell session.
+In the `~/.bashrc` you costomize your shell environment by changing or adding commands in that file.
+For example you can change the colour of the prompt, add messages by starting the shell or add scripts that makes the work with the shell easier.
+```   
 3. **Explain the difference between sourcing (`source ~/.bashrc`) and executing (`./print.sh`).**
+
+ ```bash
+
+```  
 
 ---
 
