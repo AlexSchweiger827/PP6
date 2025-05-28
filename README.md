@@ -206,8 +206,22 @@ _start:
 #### Reflection Questions
 
 1. **What is a file descriptor and how does the OS use it?**
-2. **How can you obtain or duplicate a file descriptor for another resource (e.g., a file or socket)?**
-3. **What might happen if you use an invalid file descriptor in a syscall?**
+A file descriptor is a process-unique identifier for a file or other input/output resources. When you open a file, the operating system creates an entry to represent that file and store the information about that file.
+It is a non negative integer, which shows the numbers of entries in your operating system.
+
+When a programm request to open a file (e.g open(), create(), socket(), pipe()) the kernel returns a file descriptor to the process.
+The table contains information of the opened files like The current position within the file for reading/writing (File Offset), How the file was opened (read-only, write- only, etc.) (Access Mode), How many file descriptors currently point this open file table entry (Reference count), a pointer to the inode of the file, which contains metadata about the actual file on the disk (Pointer to Inode Table Entry).
+The kernel maintains a table of all open file descriptors, which are in use.
+
+1.) It makes a system call (e.g read(), write()) and passes the file descriptor as an argument
+2.) The kernel receives the file descriptor and looks it up in the table
+3.) The open file table entry points to the actual inode of the file on disk
+4.) The kernel then performs the requested operation (read bytes, write bytes) based on the information about the resources and the process permissions. 
+
+3. **How can you obtain or duplicate a file descriptor for another resource (e.g., a file or socket)?**
+ 
+4. **What might happen if you use an invalid file descriptor in a syscall?**
+ 
 
 ---
 
