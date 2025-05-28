@@ -153,6 +153,18 @@ is terminated once the script is done.
    * Any editor or OS-specific files
      Commit this `.gitignore` file.
      **Explain:** Why should compiled artifacts and binaries not be committed to a Git repository?
+```bash
+Explanation:
+1.) Storing compiled artifacts (o.files) and binaries (executables) leads to redundanat data storage, which bloats the repository size unnecessarily.
+
+2.) Binaries are often specific to operating system in the CPU architecture. By committing them you need to maintain multiple versions for different plattforms.
+
+3.) It is difficult to review changes in the binary files, which makes it harder to spot harmful code changes. The source code, on the other hand, is transparent and can easily be reviewed.
+
+4.) Binary files causing merge conflicts. Git can only merge text based files. When binaries change, Git sees them a different files, which can cause a lost of changes.
+
+
+``` 
 2. In `./solutions/`, create a file named `print.s` using the template below.
 3. Define a message in the `.data` section (e.g., `msg: .ascii "Hello from GAS!\n"`, `len = . - msg`).
 4. In the `.text` section’s `_start` symbol, invoke `sys_write` (syscall 4) and then `sys_exit` (syscall 1) via `int $0x80`.
