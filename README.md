@@ -66,6 +66,8 @@ In this exercise you will:
    * Display a **welcome** message on login (e.g., `echo "Welcome, $(whoami)!"`).
    * Display a **goodbye** message on logout (add a `trap` for `EXIT` to echo `Goodbye!`).
 6. Reload your shell (`source ~/.bashrc`) and demonstrate the prompt, greeting, and exit message.
+   
+![Greeting and exit message](https://github.com/AlexSchweiger827/PP6/blob/master/bashrc.PNG?raw=true)
 
 **Template for `solutions/print.sh`**
 
