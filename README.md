@@ -206,8 +206,13 @@ _start:
 #### Reflection Questions
 
 1. **What is a file descriptor and how does the OS use it?**
+ ```bash
 A file descriptor is a process-unique identifier for a file or other input/output resources. When you open a file, the operating system creates an entry to represent that file and store the information about that file.
 It is a non negative integer, which shows the numbers of entries in your operating system.
+The integer value of the file descriptor has diffrent functions.
+-Integer value 0 = Standard input
+-Integer value 1 = Standard output
+-Integer value 2 = Standard error
 
 When a programm request to open a file (e.g open(), create(), socket(), pipe()) the kernel returns a file descriptor to the process.
 The table contains information of the opened files like The current position within the file for reading/writing (File Offset), How the file was opened (read-only, write- only, etc.) (Access Mode), How many file descriptors currently point this open file table entry (Reference count), a pointer to the inode of the file, which contains metadata about the actual file on the disk (Pointer to Inode Table Entry).
@@ -217,11 +222,52 @@ The kernel maintains a table of all open file descriptors, which are in use.
 2.) The kernel receives the file descriptor and looks it up in the table
 3.) The open file table entry points to the actual inode of the file on disk
 4.) The kernel then performs the requested operation (read bytes, write bytes) based on the information about the resources and the process permissions. 
+```
+2. **How can you obtain or duplicate a file descriptor for another resource (e.g., a file or socket)?**
+The system calls for duplicating another resources are dup(), dup2() and fcntl().
+The duplicated resource and the duplication share locks, file position pointers and flags.
+So if the duplicated resource is modified the duplication also changes.
 
-3. **How can you obtain or duplicate a file descriptor for another resource (e.g., a file or socket)?**
- 
+```bash
+example script of a duplication: 
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
+
+int main()
+{
+        int original_fd, new_fd;
+//Declaration of original_fd
+// O_RDWR= The file is readable and writable
+// O_CREAT= creates the file if the file is not available
+        original_fd=open("original_fd.txt", O_RDWR| O_CREAT );
+        new_fd=dup(original_fd);
+        printf("original fd: %d \n",original_fd);
+
+        printf("new fd: %d \n",new_fd);
+//Write in the original file descriptor
+        write(original_fd,"Written to old fd\n",18);
+//Write in the new file descriptor
+        write(new_fd,"Written to new fd\n",18);
+        return 0;
+}
+```
+The output of the file descriptor integer:
+original fd: 3
+new fd: 4
+The file descripto for "original fd" is 3 and for "new fd" is 4.
+
+The output of the textfile:
+Written to old fd
+Written to new fd
+
 4. **What might happen if you use an invalid file descriptor in a syscall?**
- 
+ 1. The system call returns -1 (Error indicator)
+ 2. The Errno is set to EBDAF ("Bad file descriptor) (in C/C++)
+ 3. The programm does not crash, because the kernel handles the error
+ 4. If the operation succeeded without an error, the invalid FD can take some place, which leads to resource 
+    leaks. This could slow down the system or make it instable. It can also crash other processes.
 
 ---
 
