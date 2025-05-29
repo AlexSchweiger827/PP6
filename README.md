@@ -383,3 +383,5 @@ if __name__ == "__main__":
 ---
 
 **Remember:** Stop working after **90 minutes** and document where you stopped.
+
+I finished task 1-3 in 95minutes.
