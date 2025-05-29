@@ -285,7 +285,7 @@ Written to new fd
    ```
 
 **Template for `solutions/print.c`**
-
+<
 ```c
 #include <stdio.h>
 
@@ -300,15 +300,45 @@ int main(void) {
 **Solution Reference**
 
 ```
-[print.c](https://github.com/YOUR_USERNAME/REPO_NAME/blob/main/solutions/print.c)
+[print.c](https://github.com/AlexSchweiger827/PP6-solutions/blob/main/print.c)
 ```
 
 #### Reflection Questions
 
 1. **Use `objdump -d` on `print_c` to find the assembly instructions corresponding to your `printf` calls.**
-2. **Why is the syntax written differently from GAS assembly? Compare NASM vs. GAS notation.**
-3. **How could you use `fprintf` to write output both to `stdout` and to a file instead? Provide example code.**
+```bash
+   0000000000001070 <printf@plt>:
+    1070:       f3 0f 1e fa             endbr64
+    1074:       ff 25 56 2f 00 00       jmp    *0x2f56(%rip)        # 3fd0 <printf@GLIBC_2.2.5>
+    107a:       66 0f 1f 44 00 00       nopw   0x0(%rax,%rax,1)
+```
 
+2. **Why is the syntax written differently from GAS assembly? Compare NASM vs. GAS notation.**
+   ```bash
+  NASM (Netwide Assembler) follows the Intel syntax. It is the syntax documented by Intel for the x86 processors.
+ The NASM syntax is: 
+ destination, source (e.g. mov eax, ebx)
+
+GAS (GNU Assembler) has the AT&T syntax which can be used general.GAS is for  GAS does not have any support for defining x86 segments. GAS is limited to creating simple single segment 16-bit binary images. Modern GAS do support a directive called .intell_syntax, which allows the use of Intel syntax with GAS.
+
+The GAS syntax is: 
+source, destination (e.g. movl %ebx, %eax)
+
+The difference between those both syntaxes has a historical reason. GAS syntax originated for older Unix systems, while NASM is for Intel's own documentation and assembler.
+   ```
+3. **How could you use `fprintf` to write output both to `stdout` and to a file instead? Provide example code.**
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main() {
+    const char*text="text.txt";
+    fprintf(stdout, "This is written to stdout and '%s'.\n",text);
+    freopen("text.txt", "a+", stdout);
+    return 0;
+}
+
+The stdout does not transfer to the text.txt file.
 ---
 
 ### Task 4: Python 3 Printing
